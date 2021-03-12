@@ -662,39 +662,29 @@ window.addEventListener("DOMContentLoaded", function () {
         });
        
       // вызов обещания с передачей ему данных из форм
-        postData(body).then( (message) => {   // если вернулся resolve
-              statusMessage.textContent = message;
-            }, (error) => {                   // если вернулся reject
-              statusMessage.textContent = error;
-            })
-          // если вернулась какая-то непонятная ошибка
-          .catch((reason) => {
-            console.error("Something is wroooong:", reason); 
-            setTimeout(() => {
-              statusMessage.textContent = "Попробуйте еще раз чуть позже...";
-            }, 3000);
-          });
+        postData(body).
+			then( (response) => {   
+				if (response !== 200) {
+					throw new Error('Status network not 200');
+				statusMessage.textContent = successMessage; 
+				}
+			})
+          // если из первого then возвращается ошибка
+          .catch((error) => {
+			  statusMessage.textContent = errorMessage; 
+		  });
         clearInputs();
       });
 
       function postData(body) {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          request.addEventListener("readystatechange", () => {
-         if (request.readyState !== 4) return;
-         if (request.status === 200) {
-              resolve(successMessage);
-              //alert("Yeah! Data sent and response loaded.");
-            } else reject(errorMessage);
-          });
-          request.open("POST", "../server.php");
-          request.setRequestHeader("Content-Type", "application/json");
-          request.send(JSON.stringify(body));
-        });
-      } 
-
-    
-
+        return fetch("../server.php", {
+			method: 'POST',
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			body: JSON.stringify(body)
+		});
+		  
       function clearInputs() {
         allInputs = document.querySelectorAll("input");
         for (let input of allInputs) {
