@@ -662,18 +662,16 @@ window.addEventListener("DOMContentLoaded", function () {
         });
        
       // вызов обещания с передачей ему данных из форм
-        postData(body).then( (message) => {   // если вернулся resolve
-              statusMessage.textContent = message;
-            }, (error) => {                   // если вернулся reject
-              statusMessage.textContent = error;
-            })
-          // если вернулась какая-то непонятная ошибка
-          .catch((reason) => {
-            console.error("Something is wroooong:", reason); 
-            setTimeout(() => {
-              statusMessage.textContent = "Попробуйте еще раз чуть позже...";
-            }, 3000);
-          });
+        postData(body)
+          .then( 
+               response => {   // если вернулся resolve
+                      statusMessage.textContent = successMessage;
+                },
+               error => {          // если вернулся reject
+                      statusMessage.textContent = errorMessage;
+                }
+           );
+          
         clearInputs();
       });
 
@@ -683,9 +681,10 @@ window.addEventListener("DOMContentLoaded", function () {
           request.addEventListener("readystatechange", () => {
          if (request.readyState !== 4) return;
          if (request.status === 200) {
-              resolve(successMessage);
-              //alert("Yeah! Data sent and response loaded.");
-            } else reject(errorMessage);
+              const response = JSON.parse(request.responseText);
+              resolve(response);
+         } else {
+              reject(request.statusText);
           });
           request.open("POST", "../server.php");
           request.setRequestHeader("Content-Type", "application/json");
