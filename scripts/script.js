@@ -661,18 +661,12 @@ window.addEventListener("DOMContentLoaded", function () {
           body[key] = val;
         });
        
- // вызов обещания с передачей ему данных из форм
-        postData(body)
-          .then(
-            (message) => {
-              // если вернулся resolve
+      // вызов обещания с передачей ему данных из форм
+        postData(body).then( (message) => {   // если вернулся resolve
               statusMessage.textContent = message;
-            },
-            (error) => {
-              // если вернулся reject
+            }, (error) => {                   // если вернулся reject
               statusMessage.textContent = error;
-            }
-        )
+            })
           // если вернулась какая-то непонятная ошибка
           .catch((reason) => {
             console.error("Something is wroooong:", reason); 
@@ -687,8 +681,8 @@ window.addEventListener("DOMContentLoaded", function () {
         return new Promise((resolve, reject) => {
           const request = new XMLHttpRequest();
           request.addEventListener("readystatechange", () => {
-            if (request.readyState !== 4) return;
-            if (request.status === 200) {
+         if (request.readyState !== 4) return;
+         if (request.status === 200) {
               resolve(successMessage);
               //alert("Yeah! Data sent and response loaded.");
             } else reject(errorMessage);
@@ -697,75 +691,9 @@ window.addEventListener("DOMContentLoaded", function () {
           request.setRequestHeader("Content-Type", "application/json");
           request.send(JSON.stringify(body));
         });
-      } // вызов обещания с передачей ему данных из форм
-        postData(body)
-          .then(
-            (message) => {
-              // если вернулся resolve
-              statusMessage.textContent = message;
-            },
-            (error) => {
-              // если вернулся reject
-              statusMessage.textContent = error;
-            }
-        )
-          // если вернулась какая-то непонятная ошибка
-          .catch((reason) => {
-            console.error("Something is wroooong:", reason); 
-            setTimeout(() => {
-              statusMessage.textContent = "Попробуйте еще раз чуть позже...";
-            }, 3000);
-          });
-        clearInputs();
-      });
+      } 
 
-      function postData(body) {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          request.addEventListener("readystatechange", () => {
-            if (request.readyState !== 4) return;
-            if (request.status === 200) {
-              resolve(successMessage);
-              //alert("Yeah! Data sent and response loaded.");
-            } else reject(errorMessage);
-          });
-          request.open("POST", "../server.php");
-          request.setRequestHeader("Content-Type", "application/json");
-          request.send(JSON.stringify(body));
-        });
-      } // вызов обещания с передачей ему данных из форм
-        postData(body)
-          .then( // если вернулся resolve
-            (message) => {
-              statusMessage.textContent = message;
-            },
-            (error) => { // если вернулся reject
-              statusMessage.textContent = error;
-            }
-        ).catch((reason) => { // если вернулась какая-то непонятная ошибка
-            console.error("Something is wroooong:", reason); 
-            setTimeout(() => {
-              statusMessage.textContent = "Попробуйте еще раз чуть позже...";
-            }, 3000);
-          });
-        clearInputs();
-      });
-
-      function postData(body) {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          request.addEventListener("readystatechange", () => {
-            if (request.readyState !== 4) return;
-            if (request.status === 200) {
-              resolve(successMessage);
-              //alert("Yeah! Data sent and response loaded.");
-            } else reject(errorMessage);
-          });
-          request.open("POST", "../server.php");
-          request.setRequestHeader("Content-Type", "application/json");
-          request.send(JSON.stringify(body));
-        });
-      }
+    
 
       function clearInputs() {
         allInputs = document.querySelectorAll("input");
