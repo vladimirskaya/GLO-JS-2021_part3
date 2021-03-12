@@ -661,17 +661,19 @@ window.addEventListener("DOMContentLoaded", function () {
           body[key] = val;
         });
        
-      // вызов обещания с передачей ему данных из форм
-        postData(body)
-          .then( 
-               response => {   // если вернулся resolve
-                      statusMessage.textContent = successMessage;
-                },
-               error => {          // если вернулся reject
-                      statusMessage.textContent = errorMessage;
-                }
-           );
-          
+      
+        // вызов обещания с передачей ему данных из форм
+        postData(body).then(
+          () => {
+            // если вернулся resolve
+            statusMessage.textContent = successMessage;
+          },
+          () => {
+            // если вернулся reject
+            statusMessage.textContent = errorMessage;
+          }
+        );
+
         clearInputs();
       });
 
@@ -679,20 +681,19 @@ window.addEventListener("DOMContentLoaded", function () {
         return new Promise((resolve, reject) => {
           const request = new XMLHttpRequest();
           request.addEventListener("readystatechange", () => {
-         if (request.readyState !== 4) return;
-         if (request.status === 200) {
-              const response = JSON.parse(request.responseText);
-              resolve(response);
-         } else {
-              reject(request.statusText);
+            if (request.readyState !== 4) return;
+            if (request.status === 200) {
+              resolve();
+            } else {
+              reject();
+            }
           });
           request.open("POST", "../server.php");
           request.setRequestHeader("Content-Type", "application/json");
           request.send(JSON.stringify(body));
         });
-      } 
+      }
 
-    
 
       function clearInputs() {
         allInputs = document.querySelectorAll("input");
