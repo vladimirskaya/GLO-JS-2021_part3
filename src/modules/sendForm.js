@@ -1,8 +1,8 @@
 const sendForm = () => {
   const errorMessage = "Что-то пошло не так...",
     loadMessage = "Передача данных...",
-    successMessage = "Спасибо! Мы скоро с Вами свяжемся!";
-  statusMessage = document.createElement("div"); // сюда выводится одно из трех сообщений выше
+    successMessage = "Спасибо! Мы скоро с Вами свяжемся!",
+    statusMessage = document.createElement("div"); // сюда выводится одно из трех сообщений выше
   statusMessage.style.cssText = "font-size: 2rem;";
   let forms = [...document.forms];
 
@@ -50,7 +50,7 @@ const sendForm = () => {
     }
 
     function clearInputs() {
-      allInputs = document.querySelectorAll("input");
+      const allInputs = document.querySelectorAll("input");
       for (let input of allInputs) {
         input.value = "";
       }
