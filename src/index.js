@@ -1,14 +1,14 @@
 "use strict";
 
-import countTimer from "../modules/countTimer";
-import toggleMenu from "../modules/toggleMenu";
-import togglePopup from "../modules/togglePopup";
-import tabs from "../modules/tabs";
-import slider from "../modules/slider";
-import toggleCommandPhoto from "../modules/toggleCommandPhoto";
-import checkInputs from "../modules/checkInputs";
-import calc from "../modules/calc";
-import sendForm from "../modules/sendForm";
+import countTimer from "./modules/countTimer";
+import toggleMenu from "./modules/toggleMenu";
+import togglePopup from "./modules/togglePopup";
+import tabs from "./modules/tabs";
+import slider from "./modules/slider";
+import toggleCommandPhoto from "./modules/toggleCommandPhoto";
+import checkInputs from "./modules/checkInputs";
+import calc from "./modules/calc";
+import sendForm from "./modules/sendForm";
 
 // Timer
 countTimer("31 july 2021");

@@ -20,6 +20,6 @@ const toggleMenu = () => {
 
   // второй обработчик без делегирования (сделать один общий для двух <- услож.)
   btnMenu.addEventListener("click", handlerMenu);
-};
+}
 
 import default toggleMenu;
