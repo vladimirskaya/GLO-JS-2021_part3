@@ -360,7 +360,6 @@ window.addEventListener("DOMContentLoaded", function () {
 
             if (/^\+\d\(\d{3}\)\d{4}/.test(value)) {
               value = value.replace(/\(*\)*\-*/g, "");
-              console.log(value);
               value =
                 value.slice(0, 2) +
                 "(" +
@@ -373,7 +372,6 @@ window.addEventListener("DOMContentLoaded", function () {
 
             if (/^\+\d\(\d{3}\)\d{3}\-\d{3}/.test(value)) {
               value = value.replace(/\(*\)*\-*/g, "");
-              console.log(value);
               value =
                 value.slice(0, 2) +
                 "(" +
@@ -664,16 +662,16 @@ window.addEventListener("DOMContentLoaded", function () {
         // вызов обещания с передачей ему данных из форм
         postData(body)
           .then((response) => {
-            console.log(response);
+            //console.log(response);
             if (response.status !== 200) {
               throw new Error("Status network not 200");
             }
             statusMessage.textContent = successMessage;
           })
-          // если из первого then возвращается ошибка
+          // ловим возможную ошибку
           .catch((error) => {
             if (!!error) {
-              console.log(error);
+              //console.log(error);
               statusMessage.textContent = errorMessage;
             }
           });
