@@ -58,4 +58,4 @@ const sendForm = () => {
   });
 };
 
-import default sendForm;
+export default sendForm;

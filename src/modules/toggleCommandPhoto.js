@@ -20,4 +20,4 @@ const toggleCommandPhoto = () => {
   });
 };
 
-import default toggleCommandPhoto
+export default toggleCommandPhoto;

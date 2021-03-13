@@ -30,4 +30,4 @@ const tabs = () => {
   });
 };
 
-import default tabs;
+export default tabs;

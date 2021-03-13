@@ -46,4 +46,4 @@ const calc = (price = 100) => {
   });
 };
 
-import default calc;
+export default calc;

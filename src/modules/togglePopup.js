@@ -51,4 +51,4 @@ const togglePopup = () => {
   });
 };
 
-import default togglePopup;
+export default togglePopup;

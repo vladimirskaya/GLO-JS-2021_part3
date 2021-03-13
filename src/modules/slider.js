@@ -95,4 +95,4 @@ const slider = () => {
   startSlide(1500);
 };
 
-import default slider;
+export default slider;
