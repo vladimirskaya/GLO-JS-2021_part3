@@ -50,3 +50,5 @@ const togglePopup = () => {
     }
   });
 };
+
+import default togglePopup;

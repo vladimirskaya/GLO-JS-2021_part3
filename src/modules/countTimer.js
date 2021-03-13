@@ -44,3 +44,5 @@ function countTimer(deadline) {
 
   let comeOn = setTimeout(updateClock, 1000);
 }
+
+import default countTimer;

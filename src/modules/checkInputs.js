@@ -280,3 +280,4 @@ const checkInputs = () => {
     });
   });
 };
+import default checkInputs;

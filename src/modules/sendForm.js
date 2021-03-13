@@ -57,3 +57,5 @@ const sendForm = () => {
     }
   });
 };
+
+import default sendForm;

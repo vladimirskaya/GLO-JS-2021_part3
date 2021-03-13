@@ -29,3 +29,5 @@ const tabs = () => {
     }
   });
 };
+
+import default tabs;

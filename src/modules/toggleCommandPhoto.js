@@ -19,3 +19,5 @@ const toggleCommandPhoto = () => {
     }
   });
 };
+
+import default toggleCommandPhoto
