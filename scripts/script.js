@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", function () {
-  ("use strict");
+  "use strict";
 
   // Timer
   function countTimer(deadline) {
