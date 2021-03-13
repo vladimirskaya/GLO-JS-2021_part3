@@ -660,31 +660,36 @@ window.addEventListener("DOMContentLoaded", function () {
         formData.forEach((val, key) => {
           body[key] = val;
         });
-       
-      // вызов обещания с передачей ему данных из форм
-        postData(body).
-			then( (response) => {   
-				if (response !== 200) {
-					throw new Error('Status network not 200');
-				statusMessage.textContent = successMessage; 
-				}
-			})
+
+        // вызов обещания с передачей ему данных из форм
+        postData(body)
+          .then((response) => {
+            console.log(response);
+            if (response.status !== 200) {
+              throw new Error("Status network not 200");
+            }
+            statusMessage.textContent = successMessage;
+          })
           // если из первого then возвращается ошибка
           .catch((error) => {
-			  statusMessage.textContent = errorMessage; 
-		  });
+            if (!!error) {
+              console.log(error);
+              statusMessage.textContent = errorMessage;
+            }
+          });
         clearInputs();
       });
 
       function postData(body) {
         return fetch("../server.php", {
-			method: 'POST',
-			headers: {
-				'Content-Type' : 'application/json'
-			},
-			body: JSON.stringify(body)
-		});
-		  
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+      }
+
       function clearInputs() {
         allInputs = document.querySelectorAll("input");
         for (let input of allInputs) {
