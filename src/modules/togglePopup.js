@@ -10,17 +10,35 @@ const togglePopup = () => {
         count = 0, // счетчик для перемещения от границы окна
         clientWidth = document.documentElement.clientWidth,
         coordinates = modalWindow.getBoundingClientRect();
-      // console.log('ширина онка clientWidth', clientWidth);
-
+      console.log("coordinates.width", coordinates);
+      const paddLeft = parseFloat(getComputedStyle(modalWindow).paddingLeft);
+      console.log("paddLeft", paddLeft);
+      // console.log("ширина онка clientWidth", clientWidth);
+      console.log("csss", getComputedStyle(modalWindow).position);
+      const step = 20;
       function animatePopup() {
-        count += 20;
+        count += step;
+        coordinates = modalWindow.getBoundingClientRect();
+        console.log("coordinates.width", coordinates);
         modalWindow.style.left = count + "px";
         if (
-          parseFloat(modalWindow.style.left) >
-          (clientWidth - coordinates.width) / 2
+          parseFloat(modalWindow.style.left) >=
+          (clientWidth - coordinates.width) / 2 + paddLeft
         ) {
-          // console.log('comodalWindow.style.left = ', modalWindow.style.left);
-          // console.log((clientWidth - coordinates.width) / 2);
+          console.log((clientWidth - coordinates.width) / 2);
+          console.log(clientWidth, "середина окна ", clientWidth / 2);
+          console.log(
+            "середина формы ",
+            parseFloat(modalWindow.style.left) + coordinates.width / 2,
+            "a x = ",
+            coordinates.x
+          );
+          // console.log(
+          //   "modalWindow.getBoundingClientRect() = ",
+          //   modalWindow.getBoundingClientRect()
+          // );
+          modalWindow.style.left =
+            parseFloat(modalWindow.style.left) - step + "px";
           clearTimeout(comeOn);
           return;
         }

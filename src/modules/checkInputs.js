@@ -17,6 +17,12 @@ const checkInputs = () => {
 
   //Часть 2. Проверка форм отправки сообщений
   const forms = document.querySelectorAll("form");
+  const formsEmail = document.querySelectorAll(".form-email");
+
+  //делаем поле обязательным для заполнения
+  formsEmail.forEach((elem) => {
+    elem.required = true;
+  });
 
   forms.forEach((form) => {
     form.addEventListener("input", (event) => {
@@ -25,7 +31,7 @@ const checkInputs = () => {
       if (target.name === "user_name") {
         regEx = /[^а-я\ ]/gi;
       } else if (target.name === "user_message") {
-        regEx = /[^а-я0-9\s\!\.\,\:\;\?\-]/gi;
+        regEx = /[^а-я\s\!\.\,\:\;\?\-]/gi;
       } else if (target.name === "user_phone") {
         regEx = /[^\d\+]/g;
       } else if (target.name === "user_email") {
@@ -35,21 +41,24 @@ const checkInputs = () => {
 
       if (target.name === "user_phone") {
         let value = target.value;
-        if (value.replace(/\D/g, "").length < 6) {
+        if (value.replace(/\D/g, "").length < 5) {
+          // все, что не цифра - удаляем и если цифр меньше 5, то делаем кнопку "отправить" неактивной
           target.form.querySelector("button").disabled = true;
-          target.title = "Номер телефона должен содержать от 6 до 11 цифр.";
+          target.title = "Номер телефона должен содержать от 5 до 11 цифр.";
         } else {
           target.form.querySelector("button").disabled = false;
           target.title = "";
         }
 
         if (/^\+/.test(value)) {
-          target.value = "+" + target.value.replace(/\+/g, "");
-          if (value[-1] === "+") value.replace(-1, "");
+          //если выражение начинается с +
+          value = "+" + value.replace(/\+/g, ""); // тогда типа фиксируем + в начале, а в самом теле удаляем
+          if (value[value.length - 1] === "+") {
+            value.replace(/\+$/g, "");
+          }
           if (/^\+\d{2}/.test(value)) {
             value = value.replace(/\)*\(*/g, "");
             value = value.slice(0, 2) + "(" + value.slice(2);
-            target.value = value;
           }
           if (/^\+\d\(\d{4}/.test(value)) {
             value = value.replace(/\(*\)*/g, "");
@@ -59,7 +68,6 @@ const checkInputs = () => {
               value.slice(2, 5) +
               ")" +
               value.slice(5);
-            target.value = value;
           }
 
           if (/^\+\d\(\d{3}\)\d{4}/.test(value)) {
@@ -89,23 +97,22 @@ const checkInputs = () => {
           }
           if (/^\+\d\(\d{3}\)\d{3}\-\d{2}\-\d{2}/.test(value)) {
             value = value.slice(0, 16);
-            target.value = value;
           }
+          target.value = value;
         } else {
+          value = value.replace(/\+/g, "");
           if (/^\d{4}/.test(value)) {
-            value = value.replace(/\)*\(*\-*/g, "");
+            value = value.replace(/\)*\(*\-*\+*/g, "");
             value = value.slice(0, 3) + "-" + value.slice(3);
-            target.value = value;
           }
           if (/^\d{3}\-\d{4}/.test(value)) {
-            value = value.replace(/\(*\)*\-*/g, "");
+            value = value.replace(/\(*\)*\-*\+*/g, "");
             value =
               value.slice(0, 3) +
               "-" +
               value.slice(3, 5) +
               "-" +
               value.slice(5);
-            target.value = value;
           }
 
           if (
@@ -113,7 +120,7 @@ const checkInputs = () => {
             value.length > 10 &&
             value.length < 14
           ) {
-            value = value.replace(/\(*\)*\-*/g, "");
+            value = value.replace(/\(*\)*\-*\+*/g, "");
             value =
               value[0] +
               "(" +
@@ -122,11 +129,10 @@ const checkInputs = () => {
               value.slice(4, 7) +
               "-" +
               value.slice(7);
-            target.value = value;
           }
 
           if (value.length === 14) {
-            value = value.replace(/\(*\)*\-*/g, "");
+            value = value.replace(/\(*\)*\-*\+*/g, "");
             value =
               value[0] +
               "(" +
@@ -137,12 +143,11 @@ const checkInputs = () => {
               value.slice(7, 9) +
               "-" +
               value.slice(9);
-            target.value = value;
           }
           if (/^\d\(\d{3}\)\d{3}\-\d{2}\-\d{2}/.test(value)) {
             value = value.slice(0, 15);
-            target.value = value;
           }
+          target.value = value;
         }
       }
 
@@ -186,61 +191,32 @@ const checkInputs = () => {
 
         function validPhone(t) {
           let resultValue = "",
-            value = t.value;
-          if (!!value) {
-            value = value
+            value = t.value
               .replace(/\-/g, "")
               .replace(/\(/g, "")
               .replace(/\)/g, "")
               .replace(/\+/, "");
-            if (value.length < 6) {
-              resultValue = value;
+          if (!!value) {
+            // если value заполнено
+            if (5 < value.length || 7 < value.length) {
+              // если цифр меньше 5 ил больше 7, возврат
               return;
             }
-            switch (true) {
-              case value.length === 6:
-                resultValue = value.slice(0, 3) + "-" + value.slice(3);
-                break;
-              case value.length === 7:
-                resultValue =
-                  value.slice(0, 3) +
-                  "-" +
-                  value.slice(3, 5) +
-                  "-" +
-                  value.slice(5);
-                break;
-              case value.length === 8:
-                resultValue =
-                  value.slice(0, 4) +
-                  "-" +
-                  value.slice(4, 7) +
-                  "-" +
-                  value.slice(7);
-                break;
-              case 9 === value.length || value.length === 10:
-                resultValue =
-                  value[0] +
-                  "(" +
-                  value.slice(1, 4) +
-                  ")" +
-                  value.slice(4, 7) +
-                  "-" +
-                  value.slice(7);
-                break;
-              case 11 === value.length:
-                resultValue =
-                  value[0] +
-                  "(" +
-                  value.slice(1, 4) +
-                  ")" +
-                  value.slice(4, 7) +
-                  "-" +
-                  value.slice(7, 9) +
-                  "-" +
-                  value.slice(9);
-                break;
+            if (value.length < 8) {
+              switch (true) {
+                case value.length < 7:
+                  resultValue = value.slice(0, 3) + "-" + value.slice(3);
+                  break;
+                case value.length === 7:
+                  resultValue =
+                    value.slice(0, 3) +
+                    "-" +
+                    value.slice(3, 5) +
+                    "-" +
+                    value.slice(5);
+                  break;
+              }
             }
-            if (t.value === "+") resultValue = "+" + resultValue;
           }
           t.value = resultValue;
         }
@@ -249,27 +225,35 @@ const checkInputs = () => {
           let correctValue = "",
             regExBeforeDot = /.+\./,
             regeXBeforeDog = /.+\@/,
+            //удаляем сдвоенные @ и .
             value = t.value.replace(/\@{2,}/g, "@").replace(/\.{2,}/g, ".");
+          //удаляем точки и собак в конце - согласно стандартам почта не может так заканчиваться
           value = value.replace(/\.$/, "").replace(/\@$/, "");
           if (value) {
             if (
-              value.lastIndexOf("@") > value.lastIndexOf(".") ||
-              !value.includes("@") ||
-              !value.includes(".")
+              value.lastIndexOf("@") > value.lastIndexOf(".") || //если собака стоит после самой последней точки
+              !value.includes("@") || //если вообще нет @
+              !value.includes(".") // если вообще нет точки
             ) {
               correctValue = value;
             } else {
+              // находит все символы до последней точки, т.к. жадный поиск. Полученная строка содержит этй точку.
               let before_domen2 = String(value.match(regExBeforeDot)),
+                //получаем вторую часть домена - т.е. что идет после точки. Значение без точки
                 domen2 = value
                   .replace(before_domen2, "")
                   .replace(/[^A-Z0-9]/gi, "");
+              //получаем все символы ,что стоят перед последней собакой
               let before_domen1 = String(before_domen2.match(regeXBeforeDog)),
+                // получаем первую часть домена, что обычно стоит после @ и до точки
                 domen1 = before_domen2
                   .replace(before_domen1, "")
                   .replace(/[^A-Z0-9\-]/gi, "")
                   .replace(/\-{2,}/g, "");
+              //удаляем символы -
               if (domen1.slice(-1) === "-") domen1 = domen1.slice(0, -1);
               if (domen1[0] === "-") domen1 = domen1.slice(1);
+              // получаем логин
               let login = before_domen1.replace(/\@/g, "");
               correctValue = login + "@" + domen1 + "." + domen2;
             }
