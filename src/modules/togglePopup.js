@@ -10,42 +10,27 @@ const togglePopup = () => {
         count = 0, // счетчик для перемещения от границы окна
         clientWidth = document.documentElement.clientWidth,
         coordinates = modalWindow.getBoundingClientRect();
-      console.log("coordinates.width", coordinates);
-      const paddLeft = parseFloat(getComputedStyle(modalWindow).paddingLeft);
-      console.log("paddLeft", paddLeft);
-      // console.log("ширина онка clientWidth", clientWidth);
-      console.log("csss", getComputedStyle(modalWindow).position);
+      //по какой-то причине учитывается паддинг для дива, получаем его значение
+      const paddLeft = parseFloat(getComputedStyle(modalWindow).paddingLeft),
       const step = 20;
+
       function animatePopup() {
         count += step;
         coordinates = modalWindow.getBoundingClientRect();
-        console.log("coordinates.width", coordinates);
+       
         modalWindow.style.left = count + "px";
         if (
           parseFloat(modalWindow.style.left) >=
           (clientWidth - coordinates.width) / 2 + paddLeft
         ) {
-          console.log((clientWidth - coordinates.width) / 2);
-          console.log(clientWidth, "середина окна ", clientWidth / 2);
-          console.log(
-            "середина формы ",
-            parseFloat(modalWindow.style.left) + coordinates.width / 2,
-            "a x = ",
-            coordinates.x
-          );
-          // console.log(
-          //   "modalWindow.getBoundingClientRect() = ",
-          //   modalWindow.getBoundingClientRect()
-          // );
           modalWindow.style.left =
-            parseFloat(modalWindow.style.left) - step + "px";
+            parseFloat(modalWindow.style.left) - step / 2 + "px";  // делим степ на 2 для более равномерного расчета
           clearTimeout(comeOn);
           return;
         }
         setTimeout(animatePopup, 15);
       }
 
-      // popup.style.position = 'relative';
       popup.style.display = "block";
       modalWindow.style.left = `-${coordinates.width}px`;
       if (clientWidth > 768) {
