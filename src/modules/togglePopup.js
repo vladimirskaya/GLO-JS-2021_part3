@@ -10,21 +10,21 @@ const togglePopup = () => {
         count = 0, // счетчик для перемещения от границы окна
         clientWidth = document.documentElement.clientWidth,
         coordinates = modalWindow.getBoundingClientRect();
-      //по какой-то причине учитывается паддинг для дива, получаем его значение
-      const paddLeft = parseFloat(getComputedStyle(modalWindow).paddingLeft),
-      const step = 20;
+      const step = 10;
+      modalWindow.setAttribute("style", "transform: translateX(0)");
+      modalWindow.setAttribute("style", "-webkit-transform: translateX(0)");
 
       function animatePopup() {
         count += step;
         coordinates = modalWindow.getBoundingClientRect();
-       
+
         modalWindow.style.left = count + "px";
         if (
           parseFloat(modalWindow.style.left) >=
-          (clientWidth - coordinates.width) / 2 + paddLeft
+          (clientWidth - coordinates.width) / 2
         ) {
           modalWindow.style.left =
-            parseFloat(modalWindow.style.left) - step / 2 + "px";  // делим степ на 2 для более равномерного расчета
+            parseFloat(modalWindow.style.left) - step / 5 + "px"; // делим степ на 5 для более равномерного расчета
           clearTimeout(comeOn);
           return;
         }
@@ -36,7 +36,8 @@ const togglePopup = () => {
       if (clientWidth > 768) {
         comeOn = setTimeout(animatePopup, 15);
       } else {
-        modalWindow.style.left = `${coordinates.x}px`;
+        coordinates = modalWindow.getBoundingClientRect();
+        modalWindow.style.left = `${(clientWidth - coordinates.width) / 2}px`;
       }
     });
   });

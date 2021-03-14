@@ -41,10 +41,10 @@ const checkInputs = () => {
 
       if (target.name === "user_phone") {
         let value = target.value;
-        if (value.replace(/\D/g, "").length < 5) {
-          // все, что не цифра - удаляем и если цифр меньше 5, то делаем кнопку "отправить" неактивной
+        if (value.replace(/\D/g, "").length < 6) {
+          // все, что не цифра - удаляем и если цифр меньше 6, то делаем кнопку "отправить" неактивной
           target.form.querySelector("button").disabled = true;
-          target.title = "Номер телефона должен содержать от 5 до 11 цифр.";
+          target.title = "Номер телефона должен содержать от 6 до 11 цифр.";
         } else {
           target.form.querySelector("button").disabled = false;
           target.title = "";
@@ -177,7 +177,7 @@ const checkInputs = () => {
           if (!!value) {
             if (t.name === "user_name") {
               let nameArr = value.split(" ");
-              nameArr.forEach((item, i) => {
+              nameArr.forEach((item) => {
                 correctValue +=
                   item[0].toUpperCase() + item.slice(1).toLowerCase() + " ";
               });
@@ -198,24 +198,22 @@ const checkInputs = () => {
               .replace(/\+/, "");
           if (!!value) {
             // если value заполнено
-            if (5 < value.length || 7 < value.length) {
-              // если цифр меньше 5 ил больше 7, возврат
+            if (value.length < 6 || value.length > 7) {
+              // если цифр меньше 6 ил свыше 7, возврат
               return;
             }
-            if (value.length < 8) {
-              switch (true) {
-                case value.length < 7:
-                  resultValue = value.slice(0, 3) + "-" + value.slice(3);
-                  break;
-                case value.length === 7:
-                  resultValue =
-                    value.slice(0, 3) +
-                    "-" +
-                    value.slice(3, 5) +
-                    "-" +
-                    value.slice(5);
-                  break;
-              }
+            switch (true) {
+              case value.length === 6:
+                resultValue = value.slice(0, 3) + "-" + value.slice(3);
+                break;
+              case value.length === 7:
+                resultValue =
+                  value.slice(0, 3) +
+                  "-" +
+                  value.slice(3, 5) +
+                  "-" +
+                  value.slice(5);
+                break;
             }
           }
           t.value = resultValue;
