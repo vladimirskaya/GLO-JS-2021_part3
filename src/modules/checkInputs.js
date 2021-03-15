@@ -18,6 +18,7 @@ const checkInputs = () => {
   //Часть 2. Проверка форм отправки сообщений
   const forms = document.querySelectorAll("form");
   const formsEmail = document.querySelectorAll(".form-email");
+  let flag;
 
   //делаем поле обязательным для заполнения
   formsEmail.forEach((elem) => {
@@ -46,8 +47,10 @@ const checkInputs = () => {
           target.form.querySelector("button").disabled = true;
           target.title = "Номер телефона должен содержать от 6 до 11 цифр.";
         } else {
-          target.form.querySelector("button").disabled = false;
-          target.title = "";
+          if (!flag) {
+            target.form.querySelector("button").disabled = false;
+            target.title = "";
+          }
         }
 
         if (/^\+/.test(value)) {
@@ -153,6 +156,18 @@ const checkInputs = () => {
 
       if (target.name === "user_email" && !!/^\W/.test(target.value)) {
         target.value = "";
+      }
+
+      if (target.name === "user_name") {
+        if (target.value.length < 2) {
+          target.form.querySelector("button").disabled = true;
+          flag = true;
+          target.title = "Имя должно содержать более одной буквы.";
+          return;
+        } else {
+          target.form.querySelector("button").disabled = false;
+          target.title = "";
+        }
       }
     });
 

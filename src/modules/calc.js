@@ -26,8 +26,8 @@ const calc = (price = 100) => {
     } else {
       total = 0;
     }
-    // console.log('countSum: total = ',total);
-    totalValue.textContent = total;
+    // console.log("countSum: total = ", total);
+    totalValue.textContent = Math.round(total);
   };
 
   calcBlock.addEventListener("change", (event) => {
@@ -40,7 +40,6 @@ const calc = (price = 100) => {
       target.matches(".calc-day") ||
       target.matches(".calc-count")
     ) {
-      // console.log(1);
       countSum();
     }
   });
