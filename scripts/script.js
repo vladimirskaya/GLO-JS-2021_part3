@@ -1,4 +1,4 @@
-erwindow.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", function () {
   "use strict";
 
   // Timer
