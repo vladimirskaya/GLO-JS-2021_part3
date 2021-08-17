@@ -49,7 +49,7 @@ window.addEventListener("DOMContentLoaded", function () {
     let comeOn = setTimeout(updateClock, 1000);
   }
 
-  countTimer("31 july 2021");
+  countTimer("31 december 2021");
 
   //menu
   const toggleMenu = () => {
